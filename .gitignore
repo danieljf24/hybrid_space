@@ -1,0 +1,8 @@
+__pycache__
+*.pyc
+*~
+*.swp
+*.swo
+do_all_*.sh
+do_test*.sh
+do_pred*.sh
