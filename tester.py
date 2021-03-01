@@ -67,7 +67,10 @@ def main():
 
     trainCollection = options.trainCollection
     output_dir = resume.replace(trainCollection, testCollection)
-    output_dir = output_dir.replace('/%s/' % options.cv_name, '/results/%s/%s/' % (options.cv_name, trainCollection))
+    if 'checkpoints' in output_dir:
+        output_dir = output_dir.replace('/checkpoints/', '/results/')
+    else:
+        output_dir = output_dir.replace('/%s/' % options.cv_name, '/results/%s/%s/' % (options.cv_name, trainCollection))
     result_pred_sents = os.path.join(output_dir, 'id.sent.score.txt')
     pred_error_matrix_file = os.path.join(output_dir, 'pred_errors_matrix.pth.tar')
     if checkToSkip(pred_error_matrix_file, opt.overwrite):
@@ -127,29 +130,24 @@ def main():
         evaluation.pred_tag(cap_tag_probs, caption_ids, tag_vocab_path, os.path.join(output_dir, 'text'))
     
     if options.space in ['latent', 'hybrid']:
-        logging.info("=======Latent Space=======")
+        # logging.info("=======Latent Space=======")
         t2v_all_errors_1 = evaluation.cal_error(video_embs, cap_embs, options.measure)
-        cal_perf(t2v_all_errors_1, v2t_gt, t2v_gt)
 
     if options.space in ['concept', 'hybrid']:
-        logging.info("=======Concept Space=======")
+        # logging.info("=======Concept Space=======")
         t2v_all_errors_2 = evaluation.cal_error_batch(video_tag_probs, cap_tag_probs, options.measure_2)
-        cal_perf(t2v_all_errors_2, v2t_gt, t2v_gt)
     
-
     if options.space in ['hybrid']:
+        w = 0.6
         t2v_all_errors_1 = norm_score(t2v_all_errors_1)
         t2v_all_errors_2 = norm_score(t2v_all_errors_2)
-        for w in [0.5, 0.2, 0.4, 0.6, 0.8]:
-            logging.info(w)
-            t2v_tag_all_errors = w*t2v_all_errors_1 + (1-w)*t2v_all_errors_2
-            cal_perf(t2v_tag_all_errors, v2t_gt, t2v_gt)
-        w = 0.6
         t2v_tag_all_errors = w*t2v_all_errors_1 + (1-w)*t2v_all_errors_2
+        cal_perf(t2v_tag_all_errors, v2t_gt, t2v_gt)
         torch.save({'errors': t2v_tag_all_errors, 'videos': video_ids, 'captions': caption_ids}, pred_error_matrix_file)    
         logging.info("write into: %s" % pred_error_matrix_file)
 
     elif options.space in ['latent']:
+        cal_perf(t2v_all_errors_1, v2t_gt, t2v_gt)
         torch.save({'errors': t2v_all_errors_1, 'videos': video_ids, 'captions': caption_ids}, pred_error_matrix_file)    
         logging.info("write into: %s" % pred_error_matrix_file)
 

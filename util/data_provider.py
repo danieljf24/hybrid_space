@@ -178,7 +178,7 @@ class VisDataSet4DualEncoding(data.Dataset):
         self.video2frames = video2frames
 
         if video_ids is None:
-            self.video_ids = video2frames.keys()
+            self.video_ids = list(video2frames.keys())
         else:
             self.video_ids = video_ids
         self.length = len(self.video_ids)

@@ -29,15 +29,13 @@ Run `do_get_dataset.sh` or the following script to download and extract MSR-VTT 
 The extracted data is placed in `$HOME/VisualSearch/`.
 ```shell
 ROOTPATH=$HOME/VisualSearch
-mkdir -p $ROOTPATH && cd $ROOTPATH
+mkdir -p $ROOTPATH
 
-# download and extract dataset
-wget xx
-tar zxf xx
+# extract dataset
+tar zxf msrvtt10k-resnext101_resnet152.tar.gz -C $ROOTPATH
 
-# download and extract pre-trained word2vec
-wget http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz
-tar zxf word2vec.tar.gz
+# extract pre-trained word2vec
+tar zxf word2vec.tar.gz -C $ROOTPATH
 ```
 
 ### Model Training and Evaluation
@@ -69,21 +67,42 @@ conda deactive
 ### Expected Performance (TODO)
 Run the following script to evaluate our trained [model(xxM)](xx) on MSR-VTT.
 ```shell
-source ~/ws_dual/bin/activate
+source activate ws_dual_py3
 MODELDIR=$HOME/VisualSearch/msrvtt10ktrain/cvpr_2019
 mkdir -p $MODELDIR
 wget -P $MODELDIR http://lixirong.net/data/cvpr2019/model_best.pth.tar
-CUDA_VISIBLE_DEVICES=0 python tester.py msrvtt10ktest --logger_name $MODELDIR
+CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10k --logger_name $MODELDIR  --checkpoint_name msrvtt10k_model_best.pth.tar
 deactive
 ```
 
 The expected performance of Dual Encoding on MSR-VTT is as follows. Notice that due to random factors in SGD based training, the numbers differ slightly from those reported in the paper.
 
-|  | R@1 | R@5 | R@10 | Med r |	mAP |
-| ------------- | ------------- | ------------- | ------------- |  ------------- | ------------- |
-| Text-to-Video | 7.6  | 22.4 | 31.8 | 33 | 0.155 |
-| Video-to-Text | 12.8 | 30.3 | 42.4 | 16 | 0.065 |
-
+<table>
+    <tr>
+        <th rowspan='2'>Split</th><th colspan='5'>Text-to-Video Retrieval</th> <th colspan='5'>Video-to-Text Retrieval</th>  <th rowspan='2'>SumR</th>
+    </tr>
+    <tr>
+        <th> R@1 </th> <th> R@5 </th> <th> R@10 </th> <th> MedR </th> <th>	mAP </th> <th> R@1 </th> <th> R@5 </th> <th> R@10 </th> <th> MedR </th> <th>	mAP </th>
+    </tr>
+    <tr>  
+    	<td>Official</td>
+		<td>11.8</td><td>30.6</td><td>41.8</td><td>17</td><td>21.4</td> 
+    	<td>21.6</td><td>45.9</td><td>58.5</td><td>7</td><td>10.3</td> 
+    	<td>210.2</td> 
+    </tr>
+	<tr>  
+		<td>Test1k-Miech</td>
+		<td>22.7</td><td>50.2</td><td>63.1</td><td>5</td><td>35.6</td> 
+    	<td>24.7</td><td>52.3</td><td>64.2</td><td>5</td><td>37.2</td> 
+    	<td>277.2</td> 
+    </tr>
+	<tr>  
+		<td>Test1k-Yu</td>
+		<td>21.5</td><td>48.8</td><td>60.2</td><td>6</td><td>34.0</td> 
+    	<td>21.7</td><td>49.0</td><td>61.4</td><td>6</td><td>34.6</td> 
+    	<td>262.6</td>      
+	</tr>
+</table>
 
 
 
@@ -100,6 +119,31 @@ conda activate ws_dual_py3
 ./do_all.sh vatex hybrid
 conda deactive
 ```
+
+### Expected Performance (TODO)
+Run the following script to evaluate our trained model ([vatex_model_best.pth.tar(230M)](xx)) on VATEX.
+```shell
+source activate ws_dual_py3
+MODELDIR=$HOME/VisualSearch/checkpoints
+CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection vatex --logger_name $MODELDIR  --checkpoint_name vatex_model_best.pth.tar
+deactive
+```
+
+The expected performance of Dual Encoding with hybrid space learning on MSR-VTT is as follows. 
+<table>
+    <tr>
+        <th rowspan='2'>Split</th><th colspan='5'>Text-to-Video Retrieval</th> <th colspan='5'>Video-to-Text Retrieval</th>  <th rowspan='2'>SumR</th>
+    </tr>
+    <tr>
+        <th> R@1 </th> <th> R@5 </th> <th> R@10 </th> <th> MedR </th> <th>	mAP </th> <th> R@1 </th> <th> R@5 </th> <th> R@10 </th> <th> MedR </th> <th>	mAP </th>
+    </tr>
+    <tr>  
+    	<td>VATEX</td>
+		<td>35.8</td><td>72.8</td><td>82.9</td><td>2</td><td>52.0</td> 
+    	<td>47.5</td><td>76.0</td><td>85.3</td><td>2</td><td>39.1</td> 
+    	<td>400.3</td>      
+    </tr>
+</table>
 
 
 ## Dual Encoding on Ad-hoc Video Search (AVS) (TODO)
