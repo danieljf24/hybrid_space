@@ -57,7 +57,7 @@ def fromtext(opt, txt):
     vid2words = {}
     sid2words = {}
     with open(txt, 'r') as t:
-        for line in t:
+        for line in tqdm(t):
             sid, cap = line.strip().split(" ", 1)
             cap = clean_str(cap)
             vid, num = sid.strip().split("#", 1)
@@ -103,7 +103,7 @@ def get_tags(id2words, threshold, output_file, str):
 
         for w in id2words[vid]:
             word2counter[w] = word2counter.get(w, 0) + 1  # count word frequency
-        word2counter = sorted(word2counter.iteritems(), key=lambda a: a[1],
+        word2counter = sorted(word2counter.items(), key=lambda a: a[1],
                               reverse=True)  # return a list like [(word:frequency)]
 
         for (word, value) in word2counter:
