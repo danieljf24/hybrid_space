@@ -25,16 +25,18 @@ conda deactivate
 
 ## Dual Encoding on MSRVTT10K
 ### Required Data
-Run `do_get_dataset.sh` or the following script to download and extract MSR-VTT ([msrvtt10k-resnext101_resnet152.tar.gz(4.3G)](xx)) dataset and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)).
+Run the following script to download and extract MSR-VTT ([msrvtt10k-resnext101_resnet152.tar.gz(4.3G)](http://8.210.46.84:8787/msrvtt10k-resnext101_resnet152.tar.gz)) dataset and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)).
 The extracted data is placed in `$HOME/VisualSearch/`.
 ```shell
 ROOTPATH=$HOME/VisualSearch
-mkdir -p $ROOTPATH
+mkdir -p $ROOTPATH && cd $ROOTPATH
 
-# extract dataset
+# download and extract dataset
+wget http://8.210.46.84:8787/msrvtt10k-resnext101_resnet152.tar.gz
 tar zxf msrvtt10k-resnext101_resnet152.tar.gz -C $ROOTPATH
 
-# extract pre-trained word2vec
+# download and extract pre-trained word2vec
+wget http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz
 tar zxf word2vec.tar.gz -C $ROOTPATH
 ```
 
@@ -43,40 +45,48 @@ Run the following script to train and evaluate `Dual Encoding` network with hybr
 ```shell
 conda activate ws_dual_py3
 ./do_all.sh msrvtt10k hybrid resnext101-resnet152
-conda deactive
 ```
 Running the script will do the following things:
 1. Train `Dual Encoding` network with hybrid space and select a checkpoint that performs best on the validation set as the final model. Notice that we only save the best-performing checkpoint on the validation set to save disk space.
 2. Evaluate the final model on the test set.
+Note that the dataset has already included vocabulary and concept annotations. If you would like to generate vocabulary and concepts by yourself, run the script `./do_vocab_concept.sh msrvtt10k 1`.
+
 
 If you would like to train `Dual Encoding` network with latent space (Conference Version), please run the following scrip:
 ```shell
-conda activate ws_dual_py3
 ./do_all.sh msrvtt10k latent resnext101-resnet152
-conda deactive
 ```
 
 To train the model on the `Test1k-Miech` partition and `Test1k-Yu` partition of MSR-VTT, please run the following scrip:
 ```shell
-conda activate ws_dual_py3
 ./do_all.sh msrvtt10kmiech hybrid resnext101-resnet152
 ./do_all.sh msrvtt10kyu hybrid resnext101-resnet152
-conda deactive
 ```
 
-### Expected Performance (TODO)
-Run the following script to evaluate our trained [model(xxM)](xx) on MSR-VTT.
+### Expected Performance
+Run the following script to download and evaluate our trained models on MSR-VTT. The trained models can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0). Note that if you would like to evaluate using our trained model, please make sure to use the vocabulary and concept annotations we provided in the `msrvtt10k-resnext101_resnet152.tar.gz`.
+
 ```shell
-source activate ws_dual_py3
-MODELDIR=$HOME/VisualSearch/msrvtt10ktrain/cvpr_2019
+MODELDIR=$HOME/VisualSearch/checkpoints
 mkdir -p $MODELDIR
-wget -P $MODELDIR http://lixirong.net/data/cvpr2019/model_best.pth.tar
+
+# download trained checkpoints
+wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/msrvtt10k_model_best.pth.tar
+
+# evaluate on official split of MSR-VTT
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10k --logger_name $MODELDIR  --checkpoint_name msrvtt10k_model_best.pth.tar
-deactive
 ```
+
+In order to evaluate on the other splits, please download corresponding checkpoints and replace the parameter of checkpoint_name to `msrvtt10kmiech_model_best.pth.tar`(on Test1k-Miech)  and to `msrvtt10kyu_model_best.pth.tar`(on Test1k-Yu).
+The overview of pre-trained checkpoints on MSR-VTT is as follows.
+| Split         | Pre-trained Model |
+| ----------    | ------------ |
+| Official      | [msrvtt10k_model_best.pth.tar(264M)](http://8.210.46.84:8787/checkpoints/msrvtt10k_model_best.pth.tar) |
+| Test1k-Miech  | [msrvtt10kmiech_model_best.pth.tar(267M)](http://8.210.46.84:8787/checkpoints/msrvtt10kmiech_model_best.pth.tar) |
+| Test1k-Yu     | [msrvtt10kyu_model_best.pth.tar(267M)](http://8.210.46.84:8787/checkpoints/msrvtt10kyu_model_best.pth.tar) |
+
 
 The expected performance of Dual Encoding on MSR-VTT is as follows. Notice that due to random factors in SGD based training, the numbers differ slightly from those reported in the paper.
-
 <table>
     <tr>
         <th rowspan='2'>Split</th><th colspan='5'>Text-to-Video Retrieval</th> <th colspan='5'>Video-to-Text Retrieval</th>  <th rowspan='2'>SumR</th>
@@ -109,24 +119,28 @@ The expected performance of Dual Encoding on MSR-VTT is as follows. Notice that 
 ## Dual Encoding on VATEX
 
 ### Required Data
-Download VATEX dataset ([vatex-i3d.tar.gz(3.0G)](xx)) and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz)). The data can also be downloaded from Baidu pan ([url](xx), password:xx) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)).
+Download VATEX dataset ([vatex-i3d.tar.gz(3.0G)](http://8.210.46.84:8787/vatex-i3d.tar.gz)) and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz)). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)).
 Please extract data into `$HOME/VisualSearch/`.
 
 ### Model Training and Evaluation
 Run the following script to train and evaluate `Dual Encoding` network with hybrid space on VATEX.
 ```shell
-conda activate ws_dual_py3
+# download and extract dataset
+wget http://8.210.46.84:8787/vatex-i3d.tar.gz
+tar zxf vatex-i3d.tar.gz -C $ROOTPATH
+
 ./do_all.sh vatex hybrid
-conda deactive
 ```
 
-### Expected Performance (TODO)
-Run the following script to evaluate our trained model ([vatex_model_best.pth.tar(230M)](xx)) on VATEX.
+### Expected Performance
+Run the following script to download and evaluate our trained model ([vatex_model_best.pth.tar(230M)](http://8.210.46.84:8787/checkpoints/vatex_model_best.pth.tar)) on VATEX.
 ```shell
-source activate ws_dual_py3
 MODELDIR=$HOME/VisualSearch/checkpoints
+
+# download trained checkpoints
+wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/vatex_model_best.pth.tar
+
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection vatex --logger_name $MODELDIR  --checkpoint_name vatex_model_best.pth.tar
-deactive
 ```
 
 The expected performance of Dual Encoding with hybrid space learning on MSR-VTT is as follows. 
@@ -146,7 +160,7 @@ The expected performance of Dual Encoding with hybrid space learning on MSR-VTT 
 </table>
 
 
-## Dual Encoding on Ad-hoc Video Search (AVS) (TODO)
+## Dual Encoding on Ad-hoc Video Search (AVS) (still working)
 
 ### Data
 
@@ -204,7 +218,7 @@ visual_feature=pyresnext-101_rbps13k,flatten0_output,os
 deactive
 ```
 
-## How to run Dual Encoding on another datasets?
+## How to run Dual Encoding on another datasets? (still working)
 
 Store the training, validation and test subset into three folders in the following structure respectively.
 ```shell
@@ -214,15 +228,13 @@ ${subset_name}
 │       ├── feature.bin
 │       ├── shape.txt
 │       └── id.txt
-├── ImageSets
-│   └── ${subset_name}.txt
 └── TextData
-    └── ${subset_name}.caption.txt
-
+    └── ${subset_name}train.caption.txt
+    └── ${subset_name}val.caption.txt
+    └── ${subset_name}test.caption.txt
 ```
 
 * `FeatureData`: video frame features. Using [txt2bin.py](https://github.com/danieljf24/simpleknn/blob/master/txt2bin.py) to convert video frame feature in the required binary format.
-* `${subset_name}.txt`: all video IDs in the specific subset, one video ID per line.
 * `${dsubset_name}.caption.txt`: caption data. The file structure is as follows, in which the video and sent in the same line are relevant.
 ```
 video_id_1#1 sentence_1

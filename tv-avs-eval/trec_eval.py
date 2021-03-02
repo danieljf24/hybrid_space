@@ -22,7 +22,7 @@ def parse_result(res):
     for line in lines:
         elems = line.split()
         if 'infAP' in elems:
-            print line
+            print(line)
         if 'infAP' == elems[0] and 'all' in line:
             return float(elems[-1])
 
@@ -67,6 +67,9 @@ def process(opt, input_xml_file):
     treceval_file = xml_to_treceval(opt, input_xml_file)
     res_file = os.path.join(os.path.dirname(input_xml_file), 'perf.txt')
     gt_file = os.path.join(opt.rootpath, opt.collection, 'TextData', 'avs.qrels.%s' % opt.edition)
+    
+    print(res_file)
+    print(gt_file)
 
     cmd = 'perl sample_eval.pl -q %s %s' % (gt_file, treceval_file)
     res = os.popen(cmd).read()
@@ -76,7 +79,7 @@ def process(opt, input_xml_file):
 
     resp = parse_result(res)
 
-    print '%s infAP: %.3f' % (opt.edition, resp)
+    print('%s infAP: %.3f' % (opt.edition, resp))
 
 
 

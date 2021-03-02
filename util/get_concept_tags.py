@@ -53,11 +53,10 @@ def get_wordnet_pos(tag):
 
 
 def fromtext(opt, txt):
-    print("reading captions...")
     vid2words = {}
     sid2words = {}
     with open(txt, 'r') as t:
-        for line in tqdm(t):
+        for line in tqdm(t.readlines(), desc='Reading and processing captions'):
             sid, cap = line.strip().split(" ", 1)
             cap = clean_str(cap)
             vid, num = sid.strip().split("#", 1)
@@ -90,9 +89,9 @@ def fromtext(opt, txt):
 
     return vid2words, sid2words  # {vid:[word,word,word....],....}
 
-def get_tags(id2words, threshold, output_file, str):
+def get_tags(id2words, threshold, output_file, str_name):
     fout = open(output_file, 'w')
-    for vid in tqdm(id2words.keys(), desc='Processing %s labels' % (str)):
+    for vid in tqdm(id2words.keys(), desc='Processing {0} labels'.format(str_name)):
         word2counter = {}
         fout.write('%s\t' % vid)
 

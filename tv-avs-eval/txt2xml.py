@@ -70,7 +70,7 @@ def process(options, collection, input_txt_file):
     logger.info('%s -> %d testing topics, %d shots', edition, len(tnum_set), len(shot_set))
 
     data = map(str.strip, open(input_txt_file).readlines())
-    assert(len(data) == len(tnum_set)), "number of topics does not match"
+    assert(len(list(data)) == len(tnum_set)), "number of topics does not match"
 
     xml_content = []
     for line in data:

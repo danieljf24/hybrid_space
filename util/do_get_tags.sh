@@ -1,7 +1,7 @@
 collection=$1
 rootpath=$2
+overwrite=$3
 
-overwrite=0
 th4vl=1
 th4sl=0
 

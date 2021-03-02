@@ -50,7 +50,7 @@ def clean_str(string):
 
 def from_txt(txt):
     captions = []
-    with open(txt, 'rb') as reader:
+    with open(txt, 'r') as reader:
         for line in reader:
             cap_id, caption = line.split(' ', 1)
             captions.append(caption.strip())

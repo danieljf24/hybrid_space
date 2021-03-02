@@ -4,12 +4,6 @@ space=$2
 visual_feature=$3
 overwrite=0
 
-# Generate a vocabulary on the training set
-# ./util/do_get_vocab.sh $collection $rootpath
-
-# Generate concepts accoridng to video captions
-# ./util/do_get_tags.sh $collection $rootpath
-
 
 # training
 gpu=2
