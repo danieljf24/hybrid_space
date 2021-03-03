@@ -47,7 +47,7 @@ def process(feat_dim, inputTextFiles, resultdir, overwrite):
             processed.add(name)
 
             del elems[0]
-            vec = np.array(map(float, elems), dtype=np.float32)
+            vec = np.array(list(map(float, elems)), dtype=np.float32)
             okay = True
             for x in vec:
                 if math.isnan(x):
