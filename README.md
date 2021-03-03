@@ -52,7 +52,7 @@ Running the script will do the following things:
 Note that the dataset has already included vocabulary and concept annotations. If you would like to generate vocabulary and concepts by yourself, run the script `./do_vocab_concept.sh msrvtt10k 1`.
 
 
-If you would like to train `Dual Encoding` network with latent space (Conference Version), please run the following scrip:
+If you would like to train `Dual Encoding` network with the latent space learning (Conference Version), please run the following scrip:
 ```shell
 ./do_all.sh msrvtt10k latent resnext101-resnet152
 ```
@@ -63,8 +63,20 @@ To train the model on the `Test1k-Miech` partition and `Test1k-Yu` partition of 
 ./do_all.sh msrvtt10kyu hybrid resnext101-resnet152
 ```
 
-### Expected Performance
-Run the following script to download and evaluate our trained models on MSR-VTT. The trained models can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0). Note that if you would like to evaluate using our trained model, please make sure to use the vocabulary and concept annotations we provided in the `msrvtt10k-resnext101_resnet152.tar.gz`.
+### Evaluation using Provided Checkpoints
+
+The overview of pre-trained checkpoints on MSR-VTT is as follows. 
+| Split         | Pre-trained Checkpoints |
+| ----------    | ------------ |
+| Official      | [msrvtt10k_model_best.pth.tar(264M)](http://8.210.46.84:8787/checkpoints/msrvtt10k_model_best.pth.tar) |
+| Test1k-Miech  | [msrvtt10kmiech_model_best.pth.tar(267M)](http://8.210.46.84:8787/checkpoints/msrvtt10kmiech_model_best.pth.tar) |
+| Test1k-Yu     | [msrvtt10kyu_model_best.pth.tar(267M)](http://8.210.46.84:8787/checkpoints/msrvtt10kyu_model_best.pth.tar) |
+
+Note that if you would like to evaluate using our trained checkpoints, please make sure to use the vocabulary and concept annotations that are provided in the `msrvtt10k-resnext101_resnet152.tar.gz`.
+
+
+#### On the official split
+Run the following script to download and evaluate our trained checkpoints on MSR-VTT. The trained checkpoints can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0). 
 
 ```shell
 MODELDIR=$HOME/VisualSearch/checkpoints
@@ -73,19 +85,33 @@ mkdir -p $MODELDIR
 # download trained checkpoints
 wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/msrvtt10k_model_best.pth.tar
 
-# evaluate on official split of MSR-VTT
+# evaluate on the official split of MSR-VTT
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10k --logger_name $MODELDIR  --checkpoint_name msrvtt10k_model_best.pth.tar
 ```
 
-In order to evaluate on the other splits, please download corresponding checkpoints and replace the parameter of checkpoint_name to `msrvtt10kmiech_model_best.pth.tar`(on Test1k-Miech)  and to `msrvtt10kyu_model_best.pth.tar`(on Test1k-Yu).
-The overview of pre-trained checkpoints on MSR-VTT is as follows.
-| Split         | Pre-trained Model |
-| ----------    | ------------ |
-| Official      | [msrvtt10k_model_best.pth.tar(264M)](http://8.210.46.84:8787/checkpoints/msrvtt10k_model_best.pth.tar) |
-| Test1k-Miech  | [msrvtt10kmiech_model_best.pth.tar(267M)](http://8.210.46.84:8787/checkpoints/msrvtt10kmiech_model_best.pth.tar) |
-| Test1k-Yu     | [msrvtt10kyu_model_best.pth.tar(267M)](http://8.210.46.84:8787/checkpoints/msrvtt10kyu_model_best.pth.tar) |
+#### On Test1k-Miech and Test1k-Yu splits
+In order to evaluate on `Test1k-Miech` and  `Test1k-Yu` splits, please run the following script.
 
+```shell
+MODELDIR=$HOME/VisualSearch/checkpoints
 
+# download trained checkpoints on Test1k-Miech
+wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/msrvtt10kmiech_model_best.pth.tar
+
+# evaluate on Test1k-Miech of MSR-VTT
+CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10kmiech --logger_name $MODELDIR  --checkpoint_name msrvtt10kmiech_model_best.pth.tar
+```
+
+```shell
+MODELDIR=$HOME/VisualSearch/checkpoints
+
+# download trained checkpoints on Test1k-Yu
+wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/msrvtt10kyu_model_best.pth.tar
+
+# evaluate on Test1k-Yu of MSR-VTT
+CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10kyu --logger_name $MODELDIR  --checkpoint_name msrvtt10kyu_model_best.pth.tar
+```
+#### Expected Performance
 The expected performance of Dual Encoding on MSR-VTT is as follows. Notice that due to random factors in SGD based training, the numbers differ slightly from those reported in the paper.
 <table>
     <tr>
