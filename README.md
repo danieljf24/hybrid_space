@@ -41,7 +41,7 @@ tar zxf word2vec.tar.gz -C $ROOTPATH
 ```
 
 ### Model Training and Evaluation
-Run the following script to train and evaluate `Dual Encoding` network with hybrid space on the `official` partition of MSR-VTT. The video features are the concatenation of ResNeXt-101 and ResNet-152 features. The code of video feature extraction we used in the paper is available at [here](https://github.com/xuchaoxi/video-cnn-feat]). 
+Run the following script to train and evaluate `Dual Encoding` network with hybrid space on the `official` partition of MSR-VTT. The video features are the concatenation of ResNeXt-101 and ResNet-152 features. The code of video feature extraction we used in the paper is available at [here](https://github.com/xuchaoxi/video-cnn-feat). 
 ```shell
 conda activate ws_dual_py3
 ./do_all.sh msrvtt10k hybrid resnext101-resnet152
