@@ -198,6 +198,7 @@ Please download the frame-level features from Baidu pan ([url](https://pan.baidu
 | TGIF          | tgif_ResNext-101.tar.gz        | tgif_ResNext-152.tar.gz        |
 | tv2016train   | tv2016train_ResNext-101.tar.gz | tv2016train_ResNext-152.tar.gz |
 | IACC.3        | iacc.3_ResNext-101.tar.gz      | iacc.3_ResNext-152.tar.gz      |
+
 Note if you have already download MSR-VTT data we provide above, you need not download `msrvtt10k_ResNeXt-152.tar.gz` and `msrvtt10k_ResNeXt-152.tar.gz`.
 
 #### Sentence data
@@ -242,10 +243,10 @@ overwrite=0
 
 # Generate video frame info
 visual_feature=resnext101-resnet152
-#./util/do_get_frameInfo.sh $trainCollection $visual_feature $ROOTPATH $overwrite
+./util/do_get_frameInfo.sh $trainCollection $visual_feature $ROOTPATH $overwrite
 
 # training and testing
-./do_all_avs.sh 
+./do_all_avs.sh $ROOTPATH
 
 conda deactive
 ```
