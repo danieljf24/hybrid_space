@@ -193,17 +193,15 @@ class Dataset4DualEncoding(data.Dataset):
         
         if self.tag_path is not None:
             vid_tag_str = self.vid2tags[video_id]     # string representation
-            tag_list = [self.tag2idx[word[0]] for word in vid_tag_str if word[0] in self.tag2idx]  # index representation
-            score_list = [word[1] for word in vid_tag_str]
+            tag_in_vocab = [tag_score for tag_score in vid_tag_str if tag_score[0] in self.tag2idx]
+            tag_list = [self.tag2idx[tag_score[0]] for tag_score in tag_in_vocab ]  # index representation
+            score_list = [tag_score[1] for tag_score in tag_in_vocab]
             tag_one_hot = torch.zeros(self.tag_vocab_size)  # build zero vector of tag vocabulary that is used to represent tags by one-hot
             for idx, tag_idx in enumerate(tag_list):
                 tag_one_hot[tag_idx] = score_list[idx]  # one-hot
         else:
             tag_one_hot = torch.zeros(self.tag_vocab_size)
-        # print tag_one_hot
         vid_tag = torch.Tensor(np.array(tag_one_hot))
-        # print ('%s:' %video_id, vid_tag)
-
 
 
         return frames_tensor, cap_tensor, cap_bow, index, cap_id, video_id, vid_tag

@@ -1,5 +1,5 @@
 '''
-join several sub collections' features into one large collection feature
+join several sub collections' features into one large collection feature and concatenate multiple features into one feature
 '''
 
 import os
@@ -8,6 +8,7 @@ import logging
 from basic.constant import ROOT_PATH
 from basic.generic_utils import Progbar
 from basic.bigfile import BigFile
+from txt2bin import process as txt2bin
 
 logger = logging.getLogger(__file__)
 logging.basicConfig(
@@ -15,10 +16,9 @@ logging.basicConfig(
         datefmt='%d %b %H:%M:%S')
 logger.setLevel(logging.INFO)
 
-def process(options, collection, featname, sub_collections, set_style):
+def process(options, collection, featname_1, featname_2, sub_collections):
     rootpath = options.rootpath
-    target_feat_dir = os.path.join(rootpath, collection, 'FeatureData', featname)
-    target_img_file = os.path.join(rootpath, collection, set_style, collection+'.txt')
+    target_feat_dir = os.path.join(rootpath, collection, 'FeatureData', featname_1+"_"+featname_2)
 
     if os.path.exists(target_feat_dir):
         if options.overwrite:
@@ -30,34 +30,28 @@ def process(options, collection, featname, sub_collections, set_style):
         os.makedirs(target_feat_dir)
 
     target_feat_file = os.path.join(target_feat_dir, 'id.feature.txt')
-    target_id_file = os.path.join(target_feat_dir, 'id.txt')
     sub_collections = sub_collections.split('@')
-    img_ids = [] 
 
-    with open(target_feat_file, 'w') as fw_feat, open(target_id_file, 'w') as fw_id:
+    with open(target_feat_file, 'w') as fw_feat:
         for collect in sub_collections:
-            feat_dir = os.path.join(rootpath, collect, 'FeatureData', featname)
-            featfile = BigFile(feat_dir)
+            feat_dir_1 = os.path.join(rootpath, collect, 'FeatureData', featname_1)
+            feat_dir_2 = os.path.join(rootpath, collect, 'FeatureData', featname_2)
+            featfile_1 = BigFile(feat_dir_1)
+            featfile_2 = BigFile(feat_dir_2)
 
             print(">>> Process %s" % collect)
-            progbar = Progbar(len(featfile.names))
-            for name in featfile.names:
-                feat = featfile.read_one(name)
-                fw_feat.write('%s %s\n' % (name, ' '.join(['%g'%x for x in feat])))
+            progbar = Progbar(len(featfile_1.names))
+            for name in featfile_1.names:
+                feat_1 = featfile_1.read_one(name)
+                feat_2 = featfile_2.read_one(name)
+                fw_feat.write('%s %s\n' % (name, ' '.join(['%g'%x for x in feat_1+feat_2])))
                 progbar.add(1)
 
-            img_ids.extend(featfile.names)
+    # transform txt to bin format
+    txt2bin(len(feat_1)+len(feat_2), target_feat_file, target_feat_dir, options.overwrite)
 
-        fw_id.write(' '.join(img_ids))
-
-    if os.path.exists(target_img_file):
-        logger.info('%s exists! quit.', target_img_file)
-        return 0
-    else:
-        if not os.path.exists(os.path.dirname(target_img_file)):
-            os.makedirs(os.path.dirname(target_img_file))
-        with open(target_img_file, 'w') as fw_img:
-            fw_img.write('\n'.join(img_ids) + '\n')
+    ln_target_feat_dir = os.path.join(rootpath, collection, 'FeatureData', 'resnext101-resnet152')
+    os.system('ln -s %s %s' % (target_feat_dir, ln_target_feat_dir))
     
 
 def main(argv=None):
@@ -65,9 +59,10 @@ def main(argv=None):
         argv = sys.argv[1:]
 
     from optparse import OptionParser
-    parser = OptionParser(usage="""usage: %prog [options] collection featname sub_collections set_style""")
+    parser = OptionParser(usage="""usage: %prog [options] collection featname_1 featname_2""")
     parser.add_option("--rootpath", default=ROOT_PATH, type="string", help="rootpath (default: %s)" % ROOT_PATH)
     parser.add_option("--overwrite", default=0, type="int", help="overwrite existing file (default=0)")
+    parser.add_option("--sub_collections", default="", type="str", help="sub collections")
 
     (options, args) = parser.parse_args(argv)
     if len(args) < 4:

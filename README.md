@@ -25,7 +25,7 @@ conda deactivate
 
 ## Dual Encoding on MSRVTT10K
 ### Required Data
-Run the following script to download and extract MSR-VTT ([msrvtt10k-resnext101_resnet152.tar.gz(4.3G)](http://8.210.46.84:8787/msrvtt10k-resnext101_resnet152.tar.gz)) dataset and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)).
+Run the following script to download and extract MSR-VTT ([msrvtt10k-resnext101_resnet152.tar.gz(4.3G)](http://8.210.46.84:8787/msrvtt10k-resnext101_resnet152.tar.gz)) dataset and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)). For more information about the dataset, please refer to [here](dataset/README.md).
 The extracted data is placed in `$HOME/VisualSearch/`.
 ```shell
 ROOTPATH=$HOME/VisualSearch
@@ -49,18 +49,18 @@ conda activate ws_dual_py3
 Running the script will do the following things:
 1. Train `Dual Encoding` network with hybrid space and select a checkpoint that performs best on the validation set as the final model. Notice that we only save the best-performing checkpoint on the validation set to save disk space.
 2. Evaluate the final model on the test set.
-Note that the dataset has already included vocabulary and concept annotations. If you would like to generate vocabulary and concepts by yourself, run the script `./do_vocab_concept.sh msrvtt10k 1`.
+Note that the dataset has already included vocabulary and concept annotations. If you would like to generate vocabulary and concepts by yourself, run the script `./do_vocab_concept.sh msrvtt10k 1 $ROOTPATH`.
 
 
 If you would like to train `Dual Encoding` network with the latent space learning (Conference Version), please run the following scrip:
 ```shell
-./do_all.sh msrvtt10k latent resnext101-resnet152
+./do_all.sh msrvtt10k latent resnext101-resnet152 $ROOTPATH
 ```
 
 To train the model on the `Test1k-Miech` partition and `Test1k-Yu` partition of MSR-VTT, please run the following scrip:
 ```shell
-./do_all.sh msrvtt10kmiech hybrid resnext101-resnet152
-./do_all.sh msrvtt10kyu hybrid resnext101-resnet152
+./do_all.sh msrvtt10kmiech hybrid resnext101-resnet152 $ROOTPATH
+./do_all.sh msrvtt10kyu hybrid resnext101-resnet152 $ROOTPATH
 ```
 
 ### Evaluation using Provided Checkpoints
@@ -145,8 +145,7 @@ The expected performance of Dual Encoding on MSR-VTT is as follows. Notice that 
 ## Dual Encoding on VATEX
 
 ### Required Data
-Download VATEX dataset ([vatex-i3d.tar.gz(3.0G)](http://8.210.46.84:8787/vatex-i3d.tar.gz)) and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz)). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)).
-Please extract data into `$HOME/VisualSearch/`.
+Download VATEX dataset ([vatex-i3d.tar.gz(3.0G)](http://8.210.46.84:8787/vatex-i3d.tar.gz)) and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz)). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)). For more information about the dataset, please refer to [here](dataset/README.md). Please extract data into `$HOME/VisualSearch/`.
 
 ### Model Training and Evaluation
 Run the following script to train and evaluate `Dual Encoding` network with hybrid space on VATEX.
@@ -155,7 +154,7 @@ Run the following script to train and evaluate `Dual Encoding` network with hybr
 wget http://8.210.46.84:8787/vatex-i3d.tar.gz
 tar zxf vatex-i3d.tar.gz -C $ROOTPATH
 
-./do_all.sh vatex hybrid
+./do_all.sh vatex hybrid i3d_kinetics $ROOTPATH
 ```
 
 ### Expected Performance
@@ -186,37 +185,41 @@ The expected performance of Dual Encoding with hybrid space learning on MSR-VTT 
 </table>
 
 
-## Dual Encoding on Ad-hoc Video Search (AVS) (still working)
+## Dual Encoding on Ad-hoc Video Search (AVS)
 
 ### Data
-
-The following three datasets are used for training, validation and testing: tgif-msrvtt10k, tv2016train and iacc.3. For more information about these datasets, please refer to https://github.com/li-xirong/avs.
-
-Run the following scripts to download and extract these datasets. The extracted data is placed in `$HOME/VisualSearch/`.
-
-#### Sentence data
-* Sentences: [tgif-msrvtt10k](http://lixirong.net/data/mm2019/tgif-msrvtt10k-sent.tar.gz), [tv2016train](http://lixirong.net/data/mm2019/tv2016train-sent.tar.gz)
-* TRECVID 2016 / 2017 / 2018 AVS topics and ground truth:  [iacc.3](http://lixirong.net/data/mm2019/iacc.3-avs-topics.tar.gz)
+The following datasets are used for training, validation and testing: the joint collection of MSR-VTT and TGIF, tv2016train and IACC.3. For more information about these datasets, please refer to [here](dataset/README.md).
 
 #### Frame-level feature data
-* 2048-dim ResNeXt-101: [tgif](http://39.104.114.128/avs/tgif_ResNext-101.tar.gz)(7G), [msrvtt10k](http://39.104.114.128/avs/msrvtt10k_ResNext-101.tar.gz)(2G), [tv2016train](http://39.104.114.128/avs/tv2016train_ResNext-101.tar.gz)(42M), [iacc.3](http://39.104.114.128/avs/iacc.3_ResNext-101.tar.gz)(27G)
+Please download the frame-level features from Baidu pan ([url](https://pan.baidu.com/s/1uk1PTptOgM-UgiS56M1Eqg), password:qwlc). The filename of feature data are summarized as follows.
+|  Datasets     | 2048-dim ResNeXt-101 |  2048-dim ResNet-152 | 
+| ------------  | ------------ | ------------ |
+| MSR-VTT       | msrvtt10k_ResNeXt-152.tar.gz   | msrvtt10k_ResNeXt-152.tar.gz   |
+| TGIF          | tgif_ResNext-101.tar.gz        | tgif_ResNext-152.tar.gz        |
+| tv2016train   | tv2016train_ResNext-101.tar.gz | tv2016train_ResNext-152.tar.gz |
+| IACC.3        | iacc.3_ResNext-101.tar.gz      | iacc.3_ResNext-152.tar.gz      |
+Note if you have already download MSR-VTT data we provide above, you need not download `msrvtt10k_ResNeXt-152.tar.gz` and `msrvtt10k_ResNeXt-152.tar.gz`.
 
+#### Sentence data
+* Sentences: [TGIF and MSR-VTT ](http://lixirong.net/data/mm2019/tgif-msrvtt10k-sent.tar.gz), [tv2016train](http://lixirong.net/data/mm2019/tv2016train-sent.tar.gz)
+* TRECVID 2016 / 2017 / 2018 AVS topics and ground truth:  [iacc.3](http://lixirong.net/data/mm2019/iacc.3-avs-topics.tar.gz)
+
+
+Please download the above data, and run the following scripts to extract them into `$HOME/VisualSearch/`.
 ```shell
 ROOTPATH=$HOME/VisualSearch
-cd $ROOTPATH
 
-# download and extract dataset
-wget http://39.104.114.128/avs/tgif_ResNext-101.tar.gz
-tar zxf tgif_ResNext-101.tar.gz
+# extract ResNext-101
+tar zxf tgif_ResNext-101.tar.gz -C $ROOTPATH
+tar zxf msrvtt10k_ResNext-101.tar -C $ROOTPATH
+tar zxf tv2016train_ResNext-101.tar.gz -C $ROOTPATH
+tar zxf iacc.3_ResNext-101.tar.gz -C $ROOTPATH
 
-wget http://39.104.114.128/avs/msrvtt10k_ResNext-101.tar.gz
-tar zvf msrvtt10k_ResNext-101.tar
-
-wget http://39.104.114.128/avs/tv2016train_ResNext-101.tar.gz
-tar zvf tv2016train_ResNext-101.tar.gz
-
-wget http://39.104.114.128/avs/iacc.3_ResNext-101.tar.gz
-tar zvf iacc.3_ResNext-101.tar.gz
+# extract ResNet-152
+tar zxf tgif_ResNet-152.tar.gz -C $ROOTPATH
+tar zxf msrvtt10k_ResNet-152.tar -C $ROOTPATH
+tar zxf tv2016train_ResNet-152.tar.gz -C $ROOTPATH
+tar zxf iacc.3_ResNet-152.tar.gz -C $ROOTPATH
 
 # combine feature of tgif and msrvtt10k
 ./do_combine_features.sh
@@ -226,42 +229,54 @@ tar zvf iacc.3_ResNext-101.tar.gz
 ### Train Dual Encoding model from scratch
 
 ```shell
-source ~/ws_dual/bin/activate
-
+conda activate ws_dual_py3
+ROOTPATH=$HOME/VisualSearch
 trainCollection=tgif-msrvtt10k
-visual_feature=pyresnext-101_rbps13k,flatten0_output,os
+overwrite=0
 
 # Generate a vocabulary on the training set
-./do_get_vocab.sh $trainCollection
+./util/do_get_vocab.sh $trainCollection $ROOTPATH $overwrite
+
+# Generate concepts according to video captions
+./util/do_get_tags.sh $trainCollection $ROOTPATH $overwrite
 
 # Generate video frame info
-#./do_get_frameInfo.sh $trainCollection $visual_feature
-
+visual_feature=resnext101-resnet152
+#./util/do_get_frameInfo.sh $trainCollection $visual_feature $ROOTPATH $overwrite
 
 # training and testing
 ./do_all_avs.sh 
 
-deactive
+conda deactive
 ```
 
-## How to run Dual Encoding on another datasets? (still working)
+## How to run Dual Encoding on other datasets?
 
-Store the training, validation and test subset into three folders in the following structure respectively.
+Our code supports dataset structure:
+* `One-folder structure`: train, validation and test subset are stored in a folder.
+* `Multiple-folder structure`: train, validation and test subset are stored in three folders respectively.
+
+
+### One-folder structure
+Store the train, validation and test subset into a folder in the following structure.
 ```shell
-${subset_name}
+${collection}
 ├── FeatureData
 │   └── ${feature_name}
 │       ├── feature.bin
 │       ├── shape.txt
 │       └── id.txt
 └── TextData
-    └── ${subset_name}train.caption.txt
-    └── ${subset_name}val.caption.txt
-    └── ${subset_name}test.caption.txt
+    └── ${collection}train.caption.txt
+    └── ${collection}val.caption.txt
+    └── ${collection}test.caption.txt
 ```
 
 * `FeatureData`: video frame features. Using [txt2bin.py](https://github.com/danieljf24/simpleknn/blob/master/txt2bin.py) to convert video frame feature in the required binary format.
-* `${dsubset_name}.caption.txt`: caption data. The file structure is as follows, in which the video and sent in the same line are relevant.
+* `${collection}train.caption.txt`: training caption data.
+* `${collection}val.caption.txt`: validation caption data.
+* `${collection}test.caption.txt`: test caption data. 
+The file structure is as follows, in which the video and sent in the same line are relevant.
 ```
 video_id_1#1 sentence_1
 video_id_1#2 sentence_2
@@ -270,25 +285,47 @@ video_id_n#1 sentence_k
 ...
 ```
 
+Please run the script to generate vocabulary and concepts:
+```shell
+./util/do_vocab_concept.sh $collection 0 $ROOTPATH
+```
+
+Run the following script to train and evaluate Dual Encoding on your own dataset:
+```shell
+./do_all.sh ${collection} hybrid ${feature_name} ${rootpath}
+```
+
+
+### Multiple-folder structure
+Store the training, validation and test subsets into three folders in the following structure respectively.
+```shell
+${subset_name}
+├── FeatureData
+│   └── ${feature_name}
+│       ├── feature.bin
+│       ├── shape.txt
+│       └── id.txt
+└── TextData
+    └── ${subset_name}.caption.txt
+```
+
+* `FeatureData`: video frame features.
+* `${dsubset_name}.caption.txt`: caption data of corresponding subset.
+
 You can run the following script to check whether the data is ready:
 ```shell
 ./do_format_check.sh ${train_set} ${val_set} ${test_set} ${rootpath} ${feature_name}
 ```
 where `train_set`, `val_set` and `test_set` indicate the name of training, validation and test set, respectively, ${rootpath} denotes the path where datasets are saved and `feature_name` is the video frame feature name.
 
+Please run the script to generate vocabulary and concepts:
+```shell
+./util/do_vocab_concept.sh ${train_set} 0 $ROOTPATH
+```
 
 If you pass the format check, use the following script to train and evaluate Dual Encoding on your own dataset:
 ```shell
-source ~/ws_dual/bin/activate
-./do_all_own_data.sh ${train_set} ${val_set} ${test_set} ${rootpath} ${feature_name} ${caption_num} full
-deactive
-```
-
-If training data of your task is relatively limited, we suggest dual encoding with level 2 and 3. Compared to the full edition, this version gives nearly comparable performance on MSR-VTT, but with less trainable parameters.
-```shell
-source ~/ws_dual/bin/activate
-./do_all_own_data.sh ${train_set} ${val_set} ${test_set} ${rootpath} ${feature_name} ${caption_num} reduced
-deactive
+./do_all_multifolder.sh ${train_set} ${val_set} ${test_set} hybrid ${feature_name} ${rootpath}
 ```
 
 
