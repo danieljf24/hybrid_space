@@ -230,7 +230,6 @@ tar zxf iacc.3_ResNet-152.tar.gz -C $ROOTPATH
 ### Train Dual Encoding model from scratch
 
 ```shell
-conda activate ws_dual_py3
 ROOTPATH=$HOME/VisualSearch
 trainCollection=tgif-msrvtt10k
 overwrite=0
@@ -248,7 +247,6 @@ visual_feature=resnext101-resnet152
 # training and testing
 ./do_all_avs.sh $ROOTPATH
 
-conda deactive
 ```
 
 ## How to run Dual Encoding on other datasets?
