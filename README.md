@@ -194,10 +194,10 @@ The following datasets are used for training, validation and testing: the joint 
 Please download the frame-level features from Baidu pan ([url](https://pan.baidu.com/s/1uk1PTptOgM-UgiS56M1Eqg), password:qwlc). The filename of feature data are summarized as follows.
 |  Datasets     | 2048-dim ResNeXt-101 |  2048-dim ResNet-152 | 
 | ------------  | ------------ | ------------ |
-| MSR-VTT       | msrvtt10k_ResNext-101.tar.gz   | msrvtt10k_ResNeXt-152.tar.gz   |
-| TGIF          | tgif_ResNext-101.tar.gz        | tgif_ResNext-152.tar.gz        |
-| tv2016train   | tv2016train_ResNext-101.tar.gz | tv2016train_ResNext-152.tar.gz |
-| IACC.3        | iacc.3_ResNext-101.tar.gz      | iacc.3_ResNext-152.tar.gz      |
+| MSR-VTT       | msrvtt10k_ResNext-101.tar.gz   | msrvtt10k_ResNet-152.tar.gz   |
+| TGIF          | tgif_ResNext-101.tar.gz        | tgif_ResNet-152.tar.gz        |
+| tv2016train   | tv2016train_ResNext-101.tar.gz | tv2016train_ResNet-152.tar.gz |
+| IACC.3        | iacc.3_ResNext-101.tar.gz      | iacc.3_ResNet-152.tar.gz      |
 
 Note if you have already download MSR-VTT data we provide above, you need not download `msrvtt10k_ResNext-101.tar.gz` and `msrvtt10k_ResNeXt-152.tar.gz`.
 
