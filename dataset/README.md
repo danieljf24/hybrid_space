@@ -16,7 +16,8 @@ The MSR-VTT dataset [1], originally developed for video captioning, consists of 
 | Official [1]       |  6,513 clips, 130,260 sentences  |  497 clips, 9,940 sentences  |  2,990 clips, 59,800 sentences  |
 | Test1k-Miech [2]   |  6,656 clips, 133,120 sentences  |  1,000 clips, 1,000 sentences |  1,000 clips, 1,000 sentences |
 | Test1k-Yu [3]      |  7,010 clips, 140,200 sentences  |  1,000 clips, 1,000 sentences |  1,000 clips, 1,000 sentences |
-Note as the last two data partitions provide no validation set, we build a validation set by randomly sample 1,000 clips from MSR-VTT with [2], [3] excluded, respectively.
+
+Note that as the last two data partitions provide no validation set, we build a validation set by randomly sample 1,000 clips from MSR-VTT with [2], [3] excluded, respectively.
 
 
 
@@ -39,9 +40,9 @@ IACC.3 dataset is the largest test bed for video retrieval by text to this date,
 | Train      | MSR-VTT       |     200,000    |   10,000    |
 | Train      | TGIF          |     124,534    |   100,855   |
 | Val        | tv2016train   |      400       |    200      |
-| Test       | AVS 2016      |   30 test queries  |   -   |
-| Test       | AVS 2017      |   30 test queries  |   -   |
-| Test       | AVS 2018      |   30 test queries  |   -   |
+| Test       | TRECVID AVS 2016      |   30 test queries  |   -   |
+| Test       | TRECVID AVS 2017      |   30 test queries  |   -   |
+| Test       | TRECVID AVS 2018      |   30 test queries  |   -   |
 | Test       | IACC.3        |   -            |   335,944   |
 
 

@@ -199,7 +199,7 @@ Please download the frame-level features from Baidu pan ([url](https://pan.baidu
 | tv2016train   | tv2016train_ResNext-101.tar.gz | tv2016train_ResNet-152.tar.gz |
 | IACC.3        | iacc.3_ResNext-101.tar.gz      | iacc.3_ResNet-152.tar.gz      |
 
-Note if you have already download MSR-VTT data we provide above, you need not download `msrvtt10k_ResNext-101.tar.gz` and `msrvtt10k_ResNeXt-152.tar.gz`.
+Note if you have already download MSR-VTT data we provide above, you need not download `msrvtt10k_ResNext-101.tar.gz` and `msrvtt10k_ResNet-152.tar.gz`.
 
 #### Sentence data
 * Sentences: [TGIF and MSR-VTT ](http://lixirong.net/data/mm2019/tgif-msrvtt10k-sent.tar.gz), [tv2016train](http://lixirong.net/data/mm2019/tv2016train-sent.tar.gz)
