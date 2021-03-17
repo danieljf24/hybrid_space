@@ -4,6 +4,15 @@ Source code of our TPAMI'21  paper [Dual Encoding for Video Retrieval by Text](h
 
 ![image](dual_encoding.jpg)
 
+## Table of Contents
+- [Requirements](#requirements)
+- [Dual Encoding on MSRVTT10K](#dual-encoding-on-msrvtt10k)
+- [Dual Encoding on VATEX](#dual-encoding-on-vatex)
+- [Dual Encoding on Ad-hoc Video Search](#dual-encoding-on-ad-hoc-video-search-avs)
+- [How to run Dual Encoding on other datasets](#how-to-run-dual-encoding-on-other-datasets)
+- [References](#references)
+
+
 ## Requirements
 
 #### Environments
