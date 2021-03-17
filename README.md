@@ -7,9 +7,20 @@ Source code of our TPAMI'21  paper [Dual Encoding for Video Retrieval by Text](h
 ## Table of Contents
 - [Environments](#environments)
 - [Dual Encoding on MSRVTT10K](#dual-encoding-on-msrvtt10k)
+  --[Required Data](#required-data)
+  --[Model Training and Evaluation](#model-training-and-evaluation)
+  --[Evaluation using Provided Checkpoints](#evaluation-using-provided-checkpoints)
+  --[Expected Performance](#expected-performance)
 - [Dual Encoding on VATEX](#dual-encoding-on-vatex)
+  --[Required Data](#required-data-1)
+  --[Model Training and Evaluation](#model-training-and-evaluation-1)
+  --[Expected Performance](#expected-performance-1)
 - [Dual Encoding on Ad-hoc Video Search](#dual-encoding-on-ad-hoc-video-search-avs)
+  --[Required Data](#required-data-2)
+  --[Train Dual Encoding model from scratch](#train-dual-encoding-model-from-scratch)
 - [How to run Dual Encoding on other datasets](#how-to-run-dual-encoding-on-other-datasets)
+  --[One-folder structure](#one-folder-structure)
+  --[Multiple-folder structure](#multiple-folder-structure)
 - [References](#references)
 
 
@@ -119,7 +130,7 @@ wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/msrvtt10kyu_model_best.pth
 # evaluate on Test1k-Yu of MSR-VTT
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10kyu --logger_name $MODELDIR  --checkpoint_name msrvtt10kyu_model_best.pth.tar
 ```
-#### Expected Performance
+### Expected Performance
 The expected performance of Dual Encoding on MSR-VTT is as follows. Notice that due to random factors in SGD based training, the numbers differ slightly from those reported in the paper.
 <table>
     <tr>
@@ -195,7 +206,7 @@ The expected performance of Dual Encoding with hybrid space learning on MSR-VTT 
 
 ## Dual Encoding on Ad-hoc Video Search (AVS)
 
-### Data
+### Required Data
 The following datasets are used for training, validation and testing: the joint collection of MSR-VTT and TGIF, tv2016train and IACC.3. For more information about these datasets, please refer to [here](dataset/README.md).
 
 #### Frame-level feature data
