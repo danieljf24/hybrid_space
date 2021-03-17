@@ -5,7 +5,7 @@ Source code of our TPAMI'21  paper [Dual Encoding for Video Retrieval by Text](h
 ![image](dual_encoding.jpg)
 
 ## Table of Contents
-- [Requirements](#requirements)
+- [Environments](#environments)
 - [Dual Encoding on MSRVTT10K](#dual-encoding-on-msrvtt10k)
 - [Dual Encoding on VATEX](#dual-encoding-on-vatex)
 - [Dual Encoding on Ad-hoc Video Search](#dual-encoding-on-ad-hoc-video-search-avs)
@@ -13,9 +13,8 @@ Source code of our TPAMI'21  paper [Dual Encoding for Video Retrieval by Text](h
 - [References](#references)
 
 
-## Requirements
+## Environments
 
-#### Environments
 * **Ubuntu** 16.04
 * **CUDA** 10.1
 * **Python** 3.8
