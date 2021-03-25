@@ -19,7 +19,7 @@ Source code of our TPAMI'21  paper [Dual Encoding for Video Retrieval by Text](h
   * [Required Data](#required-data-2)
   * [Train Dual Encoding model from scratch](#train-dual-encoding-model-from-scratch)
 * [How to run Dual Encoding on other datasets](#how-to-run-dual-encoding-on-other-datasets)
-  * [One-folder structure](#one-folder-structure)
+  * [Single-folder structure](#single-folder-structure)
   * [Multiple-folder structure](#multiple-folder-structure)
 * [References](#references)
 
@@ -271,11 +271,11 @@ visual_feature=resnext101-resnet152
 ## How to run Dual Encoding on other datasets?
 
 Our code supports dataset structure:
-* `One-folder structure`: train, validation and test subset are stored in a folder.
+* `Single-folder structure`: train, validation and test subset are stored in a folder.
 * `Multiple-folder structure`: train, validation and test subset are stored in three folders respectively.
 
 
-### One-folder structure
+### Single-folder structure
 Store the train, validation and test subset into a folder in the following structure.
 ```shell
 ${collection}
@@ -310,7 +310,7 @@ Please run the script to generate vocabulary and concepts:
 
 Run the following script to train and evaluate Dual Encoding on your own dataset:
 ```shell
-./do_all.sh ${collection} hybrid ${feature_name} ${rootpath}
+./do_all_singlefolder.sh ${collection} hybrid ${feature_name} ${rootpath}
 ```
 
 

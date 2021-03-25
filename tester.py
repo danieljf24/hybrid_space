@@ -23,8 +23,10 @@ from basic.common import makedirsforfile, checkToSkip
 def parse_args():
     # Hyper Parameters
     parser = argparse.ArgumentParser()
-    parser.add_argument('--testCollection', type=str, help='test collection')
     parser.add_argument('--rootpath', type=str, default=ROOT_PATH, help='path to datasets. (default: %s)'%ROOT_PATH)
+    parser.add_argument('--testCollection', type=str, help='test collection')
+    parser.add_argument('--collectionStrt', type=str, default='multiple', help='collection structure (single|multiple)')
+    parser.add_argument('--split', default='test', type=str, help='split, only for single-folder collection structure (val|test)')
     parser.add_argument('--overwrite', type=int, default=0, choices=[0,1],  help='overwrite existed file. (default: 0)')
     parser.add_argument('--log_step', default=100, type=int, help='Number of steps to print and record the log.')
     parser.add_argument('--batch_size', default=128, type=int, help='Size of a training mini-batch.')
@@ -41,7 +43,8 @@ def main():
     print(json.dumps(vars(opt), indent=2))
 
     rootpath = opt.rootpath
-    # n_caption = opt.n_caption
+    collectionStrt = opt.collectionStrt
+    assert collectionStrt == "multiple"
     resume = os.path.join(opt.logger_name, opt.checkpoint_name)
 
     if not os.path.exists(resume):
@@ -54,16 +57,11 @@ def main():
     print("=> loaded checkpoint '{}' (epoch {}, best_rsum {})"
           .format(resume, start_epoch, best_rsum))
     options = checkpoint['opt']
-
-
-    if opt.testCollection is None:
-        testCollection = options.testCollection
-        collections_pathname = options.collections_pathname
-    else:
-        testCollection = opt.testCollection
-        collections_pathname = options.collections_pathname
-        collections_pathname['test'] = testCollection
-
+    
+    # collection setting
+    testCollection = opt.testCollection
+    collections_pathname = options.collections_pathname
+    collections_pathname['test'] = testCollection
 
     trainCollection = options.trainCollection
     output_dir = resume.replace(trainCollection, testCollection)
@@ -82,8 +80,13 @@ def main():
 
     # data loader prepare
     test_cap = os.path.join(rootpath, collections_pathname['test'], 'TextData', '%s.caption.txt'%testCollection)
-    if not os.path.exists(test_cap):
-        test_cap = os.path.join(rootpath, collections_pathname['test'], 'TextData', '%stest.caption.txt'%testCollection)
+    if collectionStrt == 'single':
+        test_cap = os.path.join(rootpath, collections_pathname['test'], 'TextData', '%s%s.caption.txt'%(testCollection, opt.split))
+    elif collectionStrt == 'multiple':
+        test_cap = os.path.join(rootpath, collections_pathname['test'], 'TextData', '%s.caption.txt'%testCollection)
+    else:
+        raise NotImplementedError('collection structure %s not implemented' % collectionStrt)
+
     caption_files = {'test': test_cap}
     img_feat_path = os.path.join(rootpath, collections_pathname['test'], 'FeatureData', options.visual_feature)
     visual_feats = {'test': BigFile(img_feat_path)}

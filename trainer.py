@@ -28,6 +28,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--rootpath', type=str, default=ROOT_PATH,
                         help='path to datasets. (default: %s)'%ROOT_PATH)
+    parser.add_argument('--collectionStrt', type=str, default='single', help='collection structure (single|multiple)')
     parser.add_argument('--collection', type=str,  help='dataset name')
     parser.add_argument('--trainCollection', type=str, help='train collection')
     parser.add_argument('--valCollection', type=str,  help='validation collection')
@@ -89,14 +90,19 @@ def main():
     opt = parse_args()
 
     rootpath = opt.rootpath
+    collectionStrt = opt.collectionStrt
     collection = opt.collection
-    if collection is not None: # train,val data are in one directory
+
+    if collectionStrt == 'single': # train,val data are in one directory
         opt.trainCollection = '%strain' % collection
         opt.valCollection = '%sval' % collection
         opt.testCollection = '%stest' % collection
         collections_pathname = {'train': collection, 'val': collection, 'test': collection}
-    else: # train,val data are separated in multiple directories
+    elif collectionStrt == 'multiple': # train,val data are separated in multiple directories
         collections_pathname = {'train': opt.trainCollection, 'val': opt.valCollection, 'test': opt.testCollection}
+    else:
+        raise NotImplementedError('collection structure %s not implemented' % collectionStrt)
+
 
     cap_file = {'train': '%s.caption.txt' % opt.trainCollection, 
                 'val': '%s.caption.txt' % opt.valCollection}
@@ -191,7 +197,7 @@ def main():
         opt.text_mapping_layers[0] = opt.text_rnn_size*2 + opt.text_kernel_num * len(opt.text_kernel_sizes) 
         opt.visual_mapping_layers[0] = opt.visual_rnn_size*2 + opt.visual_kernel_num * len(opt.visual_kernel_sizes)
     else:
-        raise NotImplementedError('Model %s not implemented'%opt.model)
+        raise NotImplementedError('Model %s not implemented' % opt.model)
 
 
     # set data loader
@@ -294,6 +300,7 @@ def main():
     else:
         striptStr = ''.join(open( 'util/TEMPLATE_do_test.sh').readlines())
     striptStr = striptStr.replace('@@@rootpath@@@', rootpath)
+    striptStr = striptStr.replace('@@@collectionStrt@@@', collectionStrt)
     striptStr = striptStr.replace('@@@testCollection@@@', collections_pathname['test'])
     striptStr = striptStr.replace('@@@logger_name@@@', opt.logger_name)
     striptStr = striptStr.replace('@@@overwrite@@@', str(opt.overwrite))

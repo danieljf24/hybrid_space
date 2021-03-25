@@ -1,4 +1,5 @@
 rootpath=@@@rootpath@@@
+collectionStrt=@@@collectionStrt@@@
 testCollection=@@@testCollection@@@
 logger_name=@@@logger_name@@@
 overwrite=@@@overwrite@@@
