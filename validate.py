@@ -57,6 +57,7 @@ def cal_perf(t2v_all_errors, v2t_gt, t2v_gt, tb_logger=None, model=None):
 
 def validate(opt, tb_logger, vid_data_loader, text_data_loader, model, measure='cosine'):
     # compute the encoding for all the validation video and captions
+    model.val_start()
     video_embs, video_ids = evaluation.encode_text_or_vid(model.embed_vis, vid_data_loader)
     cap_embs, caption_ids = evaluation.encode_text_or_vid(model.embed_txt, text_data_loader)
 
