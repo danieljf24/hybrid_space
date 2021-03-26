@@ -28,7 +28,7 @@ def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--rootpath', type=str, default=ROOT_PATH, help='path to datasets. (default: %s)'%ROOT_PATH)
     parser.add_argument('--testCollection', type=str, help='test collection')
-    parser.add_argument('--collectionStrt', type=str, default='single', help='collection structure (single|multiple)')
+    parser.add_argument('--collectionStrt', type=str, default='multiple', help='collection structure (single|multiple)')
     parser.add_argument('--split', default='test', type=str, help='split, only for single-folder collection structure (val|test)')
     parser.add_argument('--overwrite', type=int, default=0, choices=[0,1],  help='overwrite existed file. (default: 0)')
     parser.add_argument('--batch_size', default=128, type=int, help='Size of a training mini-batch.')
@@ -67,6 +67,7 @@ def main():
 
     rootpath = opt.rootpath
     testCollection = opt.testCollection
+    assert collectionStrt == "multiple"
     resume = os.path.join(opt.logger_name, opt.checkpoint_name)
 
     if not os.path.exists(resume):
