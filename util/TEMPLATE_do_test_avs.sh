@@ -7,4 +7,4 @@ query_sets=@@@query_sets@@@
 
 gpu=0
 
-CUDA_VISIBLE_DEVICES=$gpu python tester_avs.py $testCollection --rootpath $rootpath --overwrite $overwrite --logger_name $logger_name --query_sets $query_sets
+CUDA_VISIBLE_DEVICES=$gpu python tester_avs.py --collectionStrt $collectionStrt --testCollection $testCollection --rootpath $rootpath --overwrite $overwrite --logger_name $logger_name --query_sets $query_sets
