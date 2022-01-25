@@ -187,7 +187,7 @@ wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/vatex_model_best.pth.tar
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection vatex --logger_name $MODELDIR  --checkpoint_name vatex_model_best.pth.tar
 ```
 
-The expected performance of Dual Encoding with hybrid space learning on MSR-VTT is as follows. 
+The expected performance of Dual Encoding with hybrid space learning on VATEX is as follows. 
 <table>
     <tr>
         <th rowspan='2'>Split</th><th colspan='5'>Text-to-Video Retrieval</th> <th colspan='5'>Video-to-Text Retrieval</th>  <th rowspan='2'>SumR</th>
