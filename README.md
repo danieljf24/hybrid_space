@@ -44,14 +44,14 @@ conda deactivate
 
 ## Dual Encoding on MSRVTT10K
 ### Required Data
-Run the following script to download and extract MSR-VTT ([msrvtt10k-resnext101_resnet152.tar.gz(4.3G)](http://8.210.46.84:8787/msrvtt10k-resnext101_resnet152.tar.gz)) dataset and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)). For more information about the dataset, please refer to [here](dataset/README.md).
+Run the following script to download and extract MSR-VTT ([msrvtt10k-resnext101_resnet152.tar.gz(4.3G)](http://8.210.46.84:8787/tpami2021/msrvtt10k-resnext101_resnet152.tar.gz)) dataset and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)). For more information about the dataset, please refer to [here](dataset/README.md).
 The extracted data is placed in `$HOME/VisualSearch/`.
 ```shell
 ROOTPATH=$HOME/VisualSearch
 mkdir -p $ROOTPATH && cd $ROOTPATH
 
 # download and extract dataset
-wget http://8.210.46.84:8787/msrvtt10k-resnext101_resnet152.tar.gz
+wget http://8.210.46.84:8787/tpami2021/msrvtt10k-resnext101_resnet152.tar.gz
 tar zxf msrvtt10k-resnext101_resnet152.tar.gz -C $ROOTPATH
 
 # download and extract pre-trained word2vec
@@ -87,9 +87,9 @@ To train the model on the `Test1k-Miech` partition and `Test1k-Yu` partition of 
 The overview of pre-trained checkpoints on MSR-VTT is as follows. 
 | Split         | Pre-trained Checkpoints |
 | ----------    | ------------ |
-| Official      | [msrvtt10k_model_best.pth.tar(264M)](http://8.210.46.84:8787/checkpoints/msrvtt10k_model_best.pth.tar) |
-| Test1k-Miech  | [msrvtt10kmiech_model_best.pth.tar(267M)](http://8.210.46.84:8787/checkpoints/msrvtt10kmiech_model_best.pth.tar) |
-| Test1k-Yu     | [msrvtt10kyu_model_best.pth.tar(267M)](http://8.210.46.84:8787/checkpoints/msrvtt10kyu_model_best.pth.tar) |
+| Official      | [msrvtt10k_model_best.pth.tar(264M)](http://8.210.46.84:8787/tpami2021/checkpoints/msrvtt10k_model_best.pth.tar) |
+| Test1k-Miech  | [msrvtt10kmiech_model_best.pth.tar(267M)](http://8.210.46.84:8787/tpami2021/checkpoints/msrvtt10kmiech_model_best.pth.tar) |
+| Test1k-Yu     | [msrvtt10kyu_model_best.pth.tar(267M)](http://8.210.46.84:8787/tpami2021/checkpoints/msrvtt10kyu_model_best.pth.tar) |
 
 Note that if you would like to evaluate using our trained checkpoints, please make sure to use the vocabulary and concept annotations that are provided in the `msrvtt10k-resnext101_resnet152.tar.gz`.
 
@@ -102,7 +102,7 @@ MODELDIR=$HOME/VisualSearch/checkpoints
 mkdir -p $MODELDIR
 
 # download trained checkpoints
-wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/msrvtt10k_model_best.pth.tar
+wegt -P $MODELDIR http://8.210.46.84:8787/tpami2021/checkpoints/msrvtt10k_model_best.pth.tar
 
 # evaluate on the official split of MSR-VTT
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10k --logger_name $MODELDIR  --checkpoint_name msrvtt10k_model_best.pth.tar
@@ -115,7 +115,7 @@ In order to evaluate on `Test1k-Miech` and  `Test1k-Yu` splits, please run the f
 MODELDIR=$HOME/VisualSearch/checkpoints
 
 # download trained checkpoints on Test1k-Miech
-wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/msrvtt10kmiech_model_best.pth.tar
+wegt -P $MODELDIR http://8.210.46.84:8787/tpami2021/checkpoints/msrvtt10kmiech_model_best.pth.tar
 
 # evaluate on Test1k-Miech of MSR-VTT
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10kmiech --logger_name $MODELDIR  --checkpoint_name msrvtt10kmiech_model_best.pth.tar
@@ -125,7 +125,7 @@ CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10kmiech --logger
 MODELDIR=$HOME/VisualSearch/checkpoints
 
 # download trained checkpoints on Test1k-Yu
-wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/msrvtt10kyu_model_best.pth.tar
+wegt -P $MODELDIR http://8.210.46.84:8787/tpami2021/checkpoints/msrvtt10kyu_model_best.pth.tar
 
 # evaluate on Test1k-Yu of MSR-VTT
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection msrvtt10kyu --logger_name $MODELDIR  --checkpoint_name msrvtt10kyu_model_best.pth.tar
@@ -164,25 +164,25 @@ The expected performance of Dual Encoding on MSR-VTT is as follows. Notice that 
 ## Dual Encoding on VATEX
 
 ### Required Data
-Download VATEX dataset ([vatex-i3d.tar.gz(3.0G)](http://8.210.46.84:8787/vatex-i3d.tar.gz)) and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz)). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)). For more information about the dataset, please refer to [here](dataset/README.md). Please extract data into `$HOME/VisualSearch/`.
+Download VATEX dataset ([vatex-i3d.tar.gz(3.0G)](http://8.210.46.84:8787/tpami2021/vatex-i3d.tar.gz)) and a pre-trained word2vec ([vec500flickr30m.tar.gz(3.0G)](http://lixirong.net/data/w2vv-tmm2018/word2vec.tar.gz)). The data can also be downloaded from Baidu pan ([url](https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg), password:p3p0) or Google drive ([url](https://drive.google.com/drive/folders/1TEIjErztZNQAi6AyNu9cK5STwo74oI8I?usp=sharing)). For more information about the dataset, please refer to [here](dataset/README.md). Please extract data into `$HOME/VisualSearch/`.
 
 ### Model Training and Evaluation
 Run the following script to train and evaluate `Dual Encoding` network with hybrid space on VATEX.
 ```shell
 # download and extract dataset
-wget http://8.210.46.84:8787/vatex-i3d.tar.gz
+wget http://8.210.46.84:8787/tpami2021/vatex-i3d.tar.gz
 tar zxf vatex-i3d.tar.gz -C $ROOTPATH
 
 ./do_all.sh vatex hybrid i3d_kinetics $ROOTPATH
 ```
 
 ### Expected Performance
-Run the following script to download and evaluate our trained model ([vatex_model_best.pth.tar(230M)](http://8.210.46.84:8787/checkpoints/vatex_model_best.pth.tar)) on VATEX.
+Run the following script to download and evaluate our trained model ([vatex_model_best.pth.tar(230M)](http://8.210.46.84:8787/tpami2021/checkpoints/vatex_model_best.pth.tar)) on VATEX.
 ```shell
 MODELDIR=$HOME/VisualSearch/checkpoints
 
 # download trained checkpoints
-wegt -P $MODELDIR http://8.210.46.84:8787/checkpoints/vatex_model_best.pth.tar
+wegt -P $MODELDIR http://8.210.46.84:8787/tpami2021/checkpoints/vatex_model_best.pth.tar
 
 CUDA_VISIBLE_DEVICES=0 python tester.py --testCollection vatex --logger_name $MODELDIR  --checkpoint_name vatex_model_best.pth.tar
 ```
