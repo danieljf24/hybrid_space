@@ -5,6 +5,7 @@
 - [VATEX](#vatex)
 - [TGIF](#tgif)
 - [TRECVID AVS](#trecvid-avs)
+- [Data Download](#data-download)
 - [References](#references)
 
 ## MSR-VTT
@@ -56,6 +57,50 @@ IACC.3 dataset is the largest test bed for video retrieval by text to this date,
 | Test       | TRECVID AVS 2017      |   30 test queries  |   -   |
 | Test       | TRECVID AVS 2018      |   30 test queries  |   -   |
 | Test       | IACC.3        |   -            |   335,944   |
+
+
+
+
+## Data Download
+
+Please download the frame-level features and the corresponding caption from the link below.
+
+<table>
+  <tr align="center">
+    <th>Dataset</th><th>split</th><th>feature</th><th>caption</th>
+  </tr>
+  <tr align="center">
+    <td rowspan='3'>MSRVTT</td><td>Official</td><td rowspan='3'><a href='https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg#list/path=%2Fsharelink3222141211-996753374765216%2FTPAMI2021_hybrid_space&parentPath=%2Fsharelink3222141211-996753374765216'>msrvtt10k-resnext101_resnet152.tar.gz, pwd:c3p0</a></td>
+   <td><a href='https://pan.baidu.com/s/1zmmYQUQ_kkiIykFYmi95Rg'>official_caption, pwd:3gco</a></td>
+  </tr>
+  <tr align="center">
+    <td>Yu</td>
+    <td><a href='https://pan.baidu.com/s/1zmmYQUQ_kkiIykFYmi95Rg'>yu_caption, pwd:3gco</a></td>
+  </tr>
+  <tr align="center">
+    <td>Miech</td>
+    <td><a href='https://pan.baidu.com/s/1zmmYQUQ_kkiIykFYmi95Rg'>miech_caption, pwd:3gco</a></td>
+  </tr>
+  <tr align="center">
+    <td colspan='2'>VATEX</td>
+    <td><a href='https://pan.baidu.com/s/1lg23K93lVwgdYs5qnTuMFg#list/path=%2Fsharelink3222141211-996753374765216%2FTPAMI2021_hybrid_space&parentPath=%2Fsharelink3222141211-996753374765216'>vatex-i3d.tar.gz, pwd:c3p0</a></td>
+    <td><a href='https://pan.baidu.com/s/1FlkTqspgOumQufymMdyM5g'>vatex_capiton, pwd:ou0g</a></td>
+  </tr>
+  </tr>
+  <tr align="center">
+    <td rowspan='2'>TGIF</td>
+    <td>TGIF-Li</td>
+    <td><a href='https://pan.baidu.com/s/10mHL3PUS3pqn2nEGMdmUVg'>resnext-101_resnet152-13k.tar.gz, pwd:bi22</a></td>
+    <td><a href='https://pan.baidu.com/s/1MygnLRBlXZgo1XNZQzPctw'>li_caption, pwd:b8bh</td>
+  </tr>
+	<tr align="center">
+    <td>TGIF-Chen</td>
+     <td><a href='https://pan.baidu.com/s/10mHL3PUS3pqn2nEGMdmUVg'>resnet152.pth.tar.gz, pwd:bi22</a></td>
+    <td><a href='https://pan.baidu.com/s/1MygnLRBlXZgo1XNZQzPctw'>chen_caption, pwd:b8bh</td>
+  </tr>
+</table>
+
+
 
 
 
