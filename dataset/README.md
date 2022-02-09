@@ -3,6 +3,7 @@
 ## Table of Contents
 - [MSR-VTT](#msr-vtt)
 - [VATEX](#vatex)
+- [TGIF](#tgif)
 - [TRECVID AVS](#trecvid-avs)
 - [References](#references)
 
