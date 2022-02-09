@@ -31,6 +31,17 @@ VATEX [4] a large-scale multilingual video description dataset. Each video, coll
 
 
 
+## TGIF
+
+TGIF [9] is originally developed for the captioning task, while now also popular for the text-to-video retrieval task. It contains 100K animated GIFs collected from Tumblr, and 120K natural language sentences annotated via crowdsourcing. Each GIF is associated with 1-3 sentences. For  this  dataset, we  notice  there  are  two  distinct  editions  of  data  split  in the  literature [10],  [11].
+|       | Train |  Val | Test |
+| ------------  | ------------ | ------------ |------------ |
+| TGIF-Li [10]      |  78,799 clips, 79,632 sentences   |  10,705 clips, 10,828 sentences  |  11,351 clips, 34,074 sentences  |
+| TGIF-Chen [11]      |  79,451 clips, 80,295 sentences   |  10,651 clips, 10,774 sentences  |  11,310 clips, 33,951 sentences  |
+
+
+
+
 ## TRECVID AVS
 
 IACC.3 dataset is the largest test bed for video retrieval by text to this date, which developed for TRECVID (Ad-hoc Video Search) AVS 2016, 2017 and 2018 task [6-8]. Given an ad-hoc query, e.g., `Find shots of military personnel interacting with protesters`, the task is to return for the query a list of 1,000 shots from the test collection ranked according to their likelihood of containing the given query. Per year TRECVID specifies 30 distinct queries of varied complexity. As TRECVID does not specify training data for the AVS task, we train the dual encoding network using the joint collection of MSR-VTT [1] and TGIF [9], use the `tv2016train` as the validation set.
@@ -67,3 +78,7 @@ IACC.3 dataset is the largest test bed for video retrieval by text to this date,
 [8] G. Awad, et al., “TRECVID 2018: Benchmarking video activity detection, video captioning and matching, video storytelling linking and video search,” in TRECVID Workshop, 2018.
 
 [9] Y. Li, Y. Song, L. Cao, J. Tetreault, L. Goldberg, A. Jaimes, and J. Luo, “TGIF: A new dataset and benchmark on animated GIF description,” in CVPR, 2016.
+
+[10] Li,  F.  Zhou,  C.  Xu,  J.  Ji,  and  G.  Yang,  “Sea:  Sentence  encoderassembly for video retrieval by textual queries,”IEEE Transactions on Multimedia, 2020.
+
+[11]  S. Chen, Y. Zhao, Q. Jin, and Q. Wu, “Fine-grained video-text retrievalwith  hierarchical  graph  reasoning,”  in CVPR,  2020.
